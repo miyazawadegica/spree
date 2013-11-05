@@ -4,7 +4,11 @@ Spree::CheckoutController.class_eval do
   def update
     if params[:order] && params[:order][:coupon_code]
       @order.coupon_code = params[:order][:coupon_code]
-      unless status = apply_coupon_code
+    end
+
+    if @order.update_from_params(params)
+      fire_event('spree.checkout.update')
+      unless apply_coupon_code
         respond_with(@order) { |format| format.html { render :edit } }
         return
       end
