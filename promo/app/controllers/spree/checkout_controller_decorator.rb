@@ -1,5 +1,4 @@
 Spree::CheckoutController.class_eval do
-
   #TODO 90% of this method is duplicated code. DRY
   def update
     if params[:order] && params[:order][:coupon_code]
@@ -12,10 +11,6 @@ Spree::CheckoutController.class_eval do
         respond_with(@order) { |format| format.html { render :edit } }
         return
       end
-    end
-
-    if @order.update_attributes(object_params)
-      fire_event('spree.checkout.update')
 
       if @order.next
         state_callback(:after)
@@ -36,5 +31,4 @@ Spree::CheckoutController.class_eval do
       respond_with(@order) { |format| format.html { render :edit } }
     end
   end
-
 end

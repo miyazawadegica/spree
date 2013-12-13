@@ -182,6 +182,7 @@ module Spree
           def can_go_to_state?(state)
             return false unless self.state.present? && has_checkout_step?(state) && has_checkout_step?(self.state)
             checkout_step_index(state) > checkout_step_index(self.state)
+          end
 
           define_callbacks :updating_from_params
 

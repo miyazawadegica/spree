@@ -1,6 +1,6 @@
 Spree::OrdersController.class_eval do
   before_filter :set_order, only: [:update]
-  before_filter :sanitize_line_items
+  before_filter :sanitize_line_items, only: [:update]
 
   def update
     if @order.update_attributes(params[:order])
@@ -35,6 +35,6 @@ Spree::OrdersController.class_eval do
   def sanitize_line_items
     # Ensures an order with no line items won't try to update them if present in params.
     # Prevents edge case: Modifying a destroyed order.
-    params[:order].delete(:line_items_attributes) if @order.line_items.empty?
+    params[:order].delete(:line_items_attributes) if params[:order] && @order.line_items.empty?
   end
 end
